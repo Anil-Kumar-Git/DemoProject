@@ -168,7 +168,7 @@ const ChangePassword = (props) => {
                               {error.confirmPassword}
                             </span>
                           )}
-
+                         <br/>
                       <div className="text-center">
                         <button
                           type="submit"

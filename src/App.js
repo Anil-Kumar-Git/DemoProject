@@ -31,7 +31,7 @@ function App() {
       setIslogin(true)
     }
   },[])
-
+   const id="hello"
   const data = (id, result) => {
     const newid = id;
     setState(newid);
@@ -52,7 +52,7 @@ function App() {
         <Route path="/login" element={<Login login={pageLogin}/>} />
         <Route path="/forgot-password" element={<ForgotPassword login={pageLogin}/>}/>
         <Route path="/singup" element={<SingUP login={pageLogin}/>}/>
-        <Route path="/reset-password" element={<ResetPwd login={pageLogin}/>}/>
+        <Route path="/reset-password/:token" element={<ResetPwd login={pageLogin}/>}/>
 
           <Route element={<PrivetComponent />}>
             <Route path="/" element={<Dashboard />} />
