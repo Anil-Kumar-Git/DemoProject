@@ -5,11 +5,14 @@ import { useNavigate } from "react-router-dom";
 const ChangePassword = (props) => {
   const navigate = useNavigate();
   const [errorOP, setErrorOP] = useState("");
-  const [errorNew, setErrorNew] = useState("");
+  const [errorNew, setErrorNew] = useState("password");
   const [input, setInput] = useState({
     password: "",
     confirmPassword: "",
   });
+
+   console.log()
+  // console.log(History.location.pathname.split("/").pop())
 
   useEffect(()=>{
     props.login(true)    
@@ -64,13 +67,15 @@ const ChangePassword = (props) => {
     });
   };
 
+  const tokenid=window.location.href.split("/").pop()
+
   const changePassword = async () => {
-    const value = {
-      newPassword: input.password,
-    };
+    const value = input.password
+    console.log(value,"value")
     const token = localStorage.getItem("token");
-    let responce = await fetch(`${Url}/user/changePassword`, {
-      method: "put",
+    console.log(tokenid,"tokenId")
+    let responce = await fetch(`${Url}/user/reset/${tokenid}`, {
+      method: "post",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -78,25 +83,27 @@ const ChangePassword = (props) => {
       body: JSON.stringify(value),
     });
     let result = await responce.json();
-    if (result.success) {
-      alert(result.message);
-      localStorage.clear();
-      navigate("/login");
-    } else {
-      const error = result.message;
-      if (error == "validation error") {
-        setTimeout(() => {
-          setErrorNew("");
-        }, 2500);
-        setErrorNew(result.errors.newPassword.message);
-      } else {
-        setErrorOP(error);
-        setTimeout(() => {
-          setErrorOP("");
-        }, 2500);
-      }
-      console.log(result.errors.newPassword.message);
-    }
+    console.log("responce",responce)
+    console.log(result,"")
+    // if (result.success) {
+    //   alert(result.message);
+    //   localStorage.clear();
+    //   navigate("/login");
+    // } else {
+    //   const error = result.message;
+    //   if (error == "validation error") {
+    //     setTimeout(() => {
+    //       setErrorNew("");
+    //     }, 2500);
+    //     setErrorNew(result.errors.newPassword.message);
+    //   } else {
+    //     setErrorOP(error);
+    //     setTimeout(() => {
+    //       setErrorOP("");
+    //     }, 2500);
+    //   }
+    //   console.log(result.errors.newPassword.message);
+    // }
   };
 
   return (

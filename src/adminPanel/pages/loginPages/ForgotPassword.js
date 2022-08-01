@@ -1,10 +1,10 @@
 import React,{useState,useEffect} from "react";
 import { Url } from "../../components/BaseUrl";
 import { useNavigate } from "react-router-dom";
+import {pathname,parsePath, createPath} from "history";
 
 const ForgotPassword = (props) => {
   const navigate = useNavigate();
-
   useEffect(()=>{
     props.login(true)    
   },[])
