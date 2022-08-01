@@ -79,7 +79,7 @@ const ChangePassword = (props) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ Authorization: token ,password:value}),
+      body: JSON.stringify({ token: token , password:value}),
     });
     let result = await responce.json();
     console.log("responce",responce)
