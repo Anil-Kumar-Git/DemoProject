@@ -77,16 +77,16 @@ const ChangePassword = (props) => {
     let responce = await fetch(`${Url}/user/reset/${tokenid}`, {
       method: "post",
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(value),
+      body: JSON.stringify({ Authorization: token ,password:value}),
     });
     let result = await responce.json();
     console.log("responce",responce)
     console.log(result,"")
     // if (result.success) {
     //   alert(result.message);
+
     //   localStorage.clear();
     //   navigate("/login");
     // } else {
