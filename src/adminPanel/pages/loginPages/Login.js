@@ -106,12 +106,12 @@ const Login = (props) => {
                             id="yourPassword"
                             required
                           />
-                               <div className="col-12">
+                        </div>
+                        <div className="col-12">
                           <p className="small mb-0">
                             Lost your Password ?{" "}
                             <Link to="/forgot-password">forgot password</Link>
                           </p>
-                        </div>
                         </div>
                         {/* <div className="col-12">
                           <div className="form-check">

@@ -1,9 +1,13 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { Url } from "../../components/BaseUrl";
 import { useNavigate } from "react-router-dom";
 
-const ForgotPassword = () => {
+const ForgotPassword = (props) => {
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    props.login(true)    
+  },[])
 
   const [email, setEmail] = useState("");
 

@@ -28,7 +28,7 @@ export default function Sidebar() {
               data-bs-parent="#sidebar-nav"
             >
               <li>
-                <Link to="/singup">
+                <Link to="/add-user">
                   <i className="bi bi-circle" />
                   <span>Add User</span>
                 </Link>
