@@ -67,14 +67,14 @@ const ChangePassword = (props) => {
     });
   };
 
-  const tokenid=window.location.href.split("/").pop()
+  
 
   const changePassword = async () => {
     const value = input.password
     console.log(value,"value")
-    const token = localStorage.getItem("token");
-    console.log(tokenid,"tokenId")
-    let responce = await fetch(`${Url}/user/reset/${tokenid}`, {
+    const token=window.location.href.split("/").pop()
+    console.log(token,"tokenId")
+    let responce = await fetch(`${Url}/user/reset`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -84,26 +84,24 @@ const ChangePassword = (props) => {
     let result = await responce.json();
     console.log("responce",responce)
     console.log(result,"")
-    // if (result.success) {
-    //   alert(result.message);
-
-    //   localStorage.clear();
-    //   navigate("/login");
-    // } else {
-    //   const error = result.message;
-    //   if (error == "validation error") {
-    //     setTimeout(() => {
-    //       setErrorNew("");
-    //     }, 2500);
-    //     setErrorNew(result.errors.newPassword.message);
-    //   } else {
-    //     setErrorOP(error);
-    //     setTimeout(() => {
-    //       setErrorOP("");
-    //     }, 2500);
-    //   }
-    //   console.log(result.errors.newPassword.message);
-    // }
+    if (result.success) {
+      alert(result.message);
+      navigate("/login");
+    } else {
+      const error = result.message;
+      if (error == "validation error") {
+        setTimeout(() => {
+          setErrorNew("");
+        }, 2500);
+        setErrorNew(result.errors.newPassword.message);
+      } else {
+        setErrorOP(error);
+        setTimeout(() => {
+          setErrorOP("");
+        }, 2500);
+      }
+      console.log(result.errors.newPassword.message);
+    }
   };
 
   return (
