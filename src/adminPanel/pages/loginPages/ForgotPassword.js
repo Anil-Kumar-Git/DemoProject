@@ -1,44 +1,34 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Url } from "../../components/BaseUrl";
-import { useNavigate } from "react-router-dom";
-import {pathname,parsePath, createPath} from "history";
+import { useNavigate,Link } from "react-router-dom";
 
 const ForgotPassword = (props) => {
   const navigate = useNavigate();
-  useEffect(()=>{
-    props.login(true)    
-  },[])
+  useEffect(() => {
+    props.login(true);
+  }, []);
 
   const [email, setEmail] = useState("");
-
   const [error, setError] = useState("");
 
   const recoverPwd = async () => {
-    let responce = await fetch(
-      `${Url}/user/forgot`,
-      {
-        method: "post",
-        body: JSON.stringify({email}),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    let responce = await fetch(`${Url}/user/forgot`, {
+      method: "post",
+      body: JSON.stringify({ email }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
     let result = await responce.json();
-    // console.log(result)
-    if (result.status == 200)
-    {
-        alert(`${result.message}` );
-        navigate("")
+    console.log(result)
+    if (result.status == 200) {
+      navigate("/forgot-message");
+    }else{
+        setError("* only admin can access this page")
       }
-    //    else{
-    //     setError("* only admin can access this page")
-    //   }
-    // } else {
-    //   setError("* "+result.message);
-    // }   
   };
+
   return (
     <div>
       <main className="main">
@@ -101,6 +91,7 @@ const ForgotPassword = (props) => {
           </section>
         </div>
       </main>
+  
     </div>
   );
 };

@@ -8,14 +8,13 @@ const MyProfile = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(false);
   const [data, setdata] = useState("");
-
-  useEffect(()=>{
-    oneUser()
-  },[])
+  const [pic, setPic] = useState("");
+ 
 
   const oneUser = async () => {
     const id =  localStorage.getItem("adminId");
     const token =localStorage.getItem("token");
+    const profilePic=localStorage.getItem("updatedpic")
     let responce = await fetch(`${Url}/user/getSingleUser/${id}`, {
       method: "get",
       headers: {
@@ -25,7 +24,12 @@ const MyProfile = () => {
     let result = await responce.json();
     const data = result.data;
     setdata(data);
+    setPic(profilePic)
   };
+
+  useEffect(()=>{
+    oneUser()
+  },[])
 
   const pageEdit = () => {
     setPage(true);
@@ -50,7 +54,7 @@ const MyProfile = () => {
               <div className="card">
                 <div className="card-body profile-card pt-4 d-flex flex-column align-items-center">
                   <img
-                    src="assets/img/profile-img.jpg"
+                    src={pic}
                     alt="Profile"
                     className="rounded-circle"
                   />
@@ -161,7 +165,7 @@ const MyProfile = () => {
                       id="profile-edit"
                     >
                       {/* Profile Edit Form */}
-                      {page ? <EditProfile data={data}/> : ""}
+                      {page ? <EditProfile data={data} pic={pic}/> : ""}
                       {/* End Profile Edit Form */}
                     </div>
              

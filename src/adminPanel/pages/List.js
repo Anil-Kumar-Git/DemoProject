@@ -127,7 +127,7 @@ const List = (props) => {
                   {/* Table with stripped rows */}
                   <div className="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                     <div className="dataTable-top">
-                      <Link to="/singup">
+                      <Link to="/add-user">
                         <button className="btn btn-primary rounded-pill">
                           Add User
                         </button>

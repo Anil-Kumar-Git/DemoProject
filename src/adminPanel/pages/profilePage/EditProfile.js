@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Url } from "../../components/BaseUrl";
 
 const EditProfile = (props) => {
-  const data=props.data;
+  const data = props.data;
   const navigate = useNavigate();
   const inputValue = {
     name: "",
@@ -11,13 +11,11 @@ const EditProfile = (props) => {
     phoneNo: "",
     address: "",
   };
-  const pic="assets/img/profile-img.jpg"
-  const pic2="messages-1.jpg"
 
-  const [state,setState]=useState(pic)
-  const [pitc,setPitc]=useState(pic)
+  const [pic, setPic] = useState("");
   const [value, setValue] = useState(inputValue);
   const [errEmail, setErrEmail] = useState("");
+  const [errPic, setErrPic] = useState("");
 
   const { name, email, phoneNo, address } = value;
 
@@ -29,13 +27,14 @@ const EditProfile = (props) => {
     }));
   };
 
-  useEffect(()=>{
-    setValue(data)
-  },[])
+  useEffect(() => {
+    setValue(data);
+    setPic(props.pic)
+  }, []);
 
   const updateAdminData = async (e) => {
     e.preventDefault();
-    const id = localStorage.getItem("adminId")
+    const id = localStorage.getItem("adminId");
     let token = localStorage.getItem("token");
     let responce = await fetch(`${Url}/user/updateUser/${id}`, {
       method: "put",
@@ -47,77 +46,57 @@ const EditProfile = (props) => {
     });
     let result = await responce.json();
     if (result.success === true) {
-      setErrEmail(" ")
+      setErrEmail(" ");
       navigate("/myprofile");
       alert("Admin Data Change successfully");
     } else {
       let errors = result.errors;
-      if(result.status==500){
-        setErrEmail("* email allready exist")
-      } 
-      else if(errors.email) {
-        let ermail=errors.email.message
-        setErrEmail(ermail)
-      }else{
-        setErrEmail("")
+      if (result.status == 500) {
+        setErrEmail("* email allready exist");
+      } else if (errors.email) {
+        let ermail = errors.email.message;
+        setErrEmail(ermail);
+      } else {
+        setErrEmail("");
       }
     }
   };
 
-  const chosePic =()=>{
-    setPitc(pic2)
-    const src="assets/img/"+pitc
-    console.log(src)
-    setState(src)
-    // changePic()
-  }
-  console.log(state)
 
-  // const changePic = async () => {
-  //   // e.preventDefault();
-  //   let token = localStorage.getItem("token");
-  //   const id=localStorage.getItem("adminId")
-  //   let responce = await fetch(
-  //     `${Url}/user/profile`,
-  //     {
-  //       method: "post",
-  //       body: JSON.stringify({id:id,filename:"assets/img/messages-1.jpg"}),
-  //       headers: {
-  //         // Authorization: `Bearer ${token}`,
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //       },
-  //     }
-  //   );
-  //   let result = await responce.json();
-  //   console.log(result)
-    // if (newresult.success === true) {
-    //   alert("inserted successfully");
-    //   navigate("/list");
-    // } else {
-    //   let error = newresult.errors;
-    //   if (error.email && error.password) {
-    //     const errEmailA = newresult.errors.email.message;
-    //     const errPasswordA = newresult.errors.password.message;
-    //     setErrEmail(errEmailA);
-    //     setErrPassword(errPasswordA);
-    //   } else if (error.password) {
-    //     const errPasswordA = newresult.errors.password.message;
-    //     setErrPassword(errPasswordA);
-    //     setErrEmail("")
-    //   } else if (error.email) {
-    //     const errEmailA = newresult.errors.email.message;
-    //     setErrEmail(errEmailA);
-    //     setErrPassword("")
-    //   }else{
-    //     setErrEmail("")
-    //     setErrPassword("")
-    //   }
-    // }
-  // };
+  const choosePic = (e) => {
+    var picture = e.target.files[0];
+    setPic(picture);
+    changePic();
+  };
 
+  const changePic = async () => {
+    const id = localStorage.getItem("adminId");
+    var formData = new FormData();
+    formData.append("user_id", id);
+    formData.append("image", pic);
 
-
+    let responce = await fetch(`${Url}/user/profile`, {
+      method: "post",
+      body: formData,
+      headers: {
+        Accept: "multipart/form-data",
+      },
+    });
+    let result = await responce.json();
+  console.log(result)
+    if (result.success === true) {
+      setErrPic(" ")
+      const myPic = `${Url}/${result.filePath}`;
+      localStorage.setItem("updatedpic",myPic)
+      alert("Profile Pic changed successfully");
+      navigate("/myprofile");
+    } else {
+      setErrPic(result.error);
+    }
+  };
+   useEffect(()=>{
+    changePic();
+   },[])
 
   return (
     <div>
@@ -130,23 +109,26 @@ const EditProfile = (props) => {
             Profile Image
           </label>
           <div className="col-md-8 col-lg-9">
-            <img src={state} alt="Profile" />
+            <img src={props.pic} alt="Profile" />
+            <div className="text-center">
+              {/* <div className="feedback error-red">{errPic}</div> */}
+            </div>
             <div className="pt-2">
-              <a
-                href="#"
-                className="btn btn-primary btn-sm"
+              <input
+                type="file"
+                accept="image/*"
+                className="btn btn-primary btn-sm bi bi-upload"
                 title="Upload new profile image"
-                onClick={chosePic}
-              >
-                <i className="bi bi-upload" />
-              </a>
-              <a
-                href="#"
+                onChange={choosePic}
+              />
+
+              <button
+                type="file"
                 className="btn btn-danger btn-sm"
                 title="Remove my profile image"
               >
                 <i className="bi bi-trash" />
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -201,7 +183,6 @@ const EditProfile = (props) => {
             />
           </div>
         </div>
-    
         <div className="row mb-3">
           <label htmlFor="Address" className="col-md-4 col-lg-3 col-form-label">
             Address
@@ -233,10 +214,9 @@ const EditProfile = (props) => {
               // defaultValue="(436) 486-3538 x29071"
             />
           </div>
-        </div>
-        {" "}
+        </div>{" "}
         <div className="text-center">
-        <div className="feedback error-red">{errEmail}</div>
+          <div className="feedback error-red">{errEmail}</div>
         </div>
         <br />
         <div className="text-center">

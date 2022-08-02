@@ -14,6 +14,8 @@ import Footer from "./adminPanel/layoutPages/Footer";
 import Error from "./adminPanel/pages/Error";
 import SingUP from "./adminPanel/pages/loginPages/Singup";
 import ResetPwd from "./adminPanel/pages/loginPages/ResetPwd"
+import ContactUsers from "./adminPanel/pages/ContactUsers";
+import ForgotMessage from "./adminPanel/pages/loginPages/forgotMessage";
 
 
 function App() {
@@ -53,6 +55,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword login={pageLogin}/>}/>
         <Route path="/singup" element={<SingUP login={pageLogin}/>}/>
         <Route path="/reset-password/:token" element={<ResetPwd login={pageLogin}/>}/>
+        <Route path="/forgot-message" element={<ForgotMessage login={pageLogin}/>}/>
 
           <Route element={<PrivetComponent />}>
             <Route path="/" element={<Dashboard />} />
@@ -60,6 +63,7 @@ function App() {
             <Route path="/edit-user" element={<EditUser State={state} />} />
             <Route path="/add-user" element={<Register />} />
             <Route path="/myprofile" element={<MyProfile/>}/>
+            <Route path="/user-contact/" element={<ContactUsers/>}/>
           </Route>
        
           <Route path="/*" element={<Error login={pageLogin} />} />
