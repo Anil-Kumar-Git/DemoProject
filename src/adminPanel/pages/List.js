@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Url } from "../components/BaseUrl";
 
 const List = (props) => {
+
   const del = "false";
   const upd = "true";
   const [confirm, setConfirm] = useState(false);

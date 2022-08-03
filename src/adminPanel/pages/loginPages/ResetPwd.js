@@ -4,15 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 const ChangePassword = (props) => {
   const navigate = useNavigate();
-  const [errorOP, setErrorOP] = useState("");
-  const [errorNew, setErrorNew] = useState("password");
+  const [errorNew, setErrorNew] = useState(" ");
   const [input, setInput] = useState({
     password: "",
     confirmPassword: "",
   });
-
-   console.log()
-  // console.log(History.location.pathname.split("/").pop())
 
   useEffect(()=>{
     props.login(true)    
@@ -94,12 +90,7 @@ const ChangePassword = (props) => {
           setErrorNew("");
         }, 2500);
         setErrorNew(result.errors.newPassword.message);
-      } else {
-        setErrorOP(error);
-        setTimeout(() => {
-          setErrorOP("");
-        }, 2500);
-      }
+      } 
       console.log(result.errors.newPassword.message);
     }
   };

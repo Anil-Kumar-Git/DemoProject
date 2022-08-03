@@ -16,6 +16,7 @@ import SingUP from "./adminPanel/pages/loginPages/Singup";
 import ResetPwd from "./adminPanel/pages/loginPages/ResetPwd"
 import ContactUsers from "./adminPanel/pages/ContactUsers";
 import ForgotMessage from "./adminPanel/pages/loginPages/forgotMessage";
+import LogError from "./adminPanel/pages/loginPages/logError";
 
 
 function App() {
@@ -32,7 +33,8 @@ function App() {
     }else{
       setIslogin(true)
     }
-  },[])
+  })
+
    const id="hello"
   const data = (id, result) => {
     const newid = id;
@@ -44,6 +46,11 @@ function App() {
   setLogin(log)
   }
 
+  const pageNotLogin=(event)=>{
+    const log=event;
+    setLogin(log)
+    }
+
 
   return (
     <div >
@@ -51,22 +58,25 @@ function App() {
         {login?(""):(<Layout />)}
         <div className="background-dark">
         <Routes>
-        <Route path="/login" element={<Login login={pageLogin}/>} />
+      
+       <Route path="/login" element={<Login login={pageLogin}/>} />
         <Route path="/forgot-password" element={<ForgotPassword login={pageLogin}/>}/>
         <Route path="/singup" element={<SingUP login={pageLogin}/>}/>
         <Route path="/reset-password/:token" element={<ResetPwd login={pageLogin}/>}/>
         <Route path="/forgot-message" element={<ForgotMessage login={pageLogin}/>}/>
-
+        <Route path="/*" element={<LogError login={pageLogin}/>} />
+           
           <Route element={<PrivetComponent />}>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<Dashboard loginNot={pageNotLogin} />} />
             <Route path="/list" element={<List data={data} />} />
             <Route path="/edit-user" element={<EditUser State={state} />} />
             <Route path="/add-user" element={<Register />} />
             <Route path="/myprofile" element={<MyProfile/>}/>
             <Route path="/user-contact/" element={<ContactUsers/>}/>
+            <Route path="/*" element={<Error />} />
+        
           </Route>
-       
-          <Route path="/*" element={<Error login={pageLogin} />} />
+          
         </Routes>
         </div>
         {login?(""):(<Footer/>)}

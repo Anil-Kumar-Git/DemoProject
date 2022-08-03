@@ -1,7 +1,11 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Link } from "react-router-dom";
 
-const Dashboard = () => {
+const Dashboard = (props) => {
+  useEffect(()=>{
+    props.login(false)    
+  },[])
+
   return (
     <div className="background-dark">
       {/* main start */}
