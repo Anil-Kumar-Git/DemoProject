@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Header() {
+
   const changeHandle = () => {
     if (document.querySelector(".toggle-sidebar-btn")) {
       document.querySelector("body").classList.toggle("toggle-sidebar");
@@ -23,7 +24,7 @@ export default function Header() {
         <div className="d-flex align-items-center justify-content-between">
           <a className="logo d-flex align-items-center">
             <img src="assets/img/logoA1.png" alt="" />
-            <span className="d-none d-lg-block">AstroAdmin</span>
+            <span className="d-none d-lg-block">Demo Admin</span>
           </a>
           <i className="bi bi-list toggle-sidebar-btn" onClick={changeHandle} />
         </div>

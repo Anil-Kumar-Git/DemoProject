@@ -41,6 +41,11 @@ export default function Sidebar() {
               </li>
             </ul>
           </li>
+          <li className="nav-item">
+            <Link to="/user-contact" className="nav-link collapsed">
+              <i className="bi bi-grid" /> <span>Contact</span>{" "}
+            </Link>
+          </li>
         </ul>
       </aside>
     </div>

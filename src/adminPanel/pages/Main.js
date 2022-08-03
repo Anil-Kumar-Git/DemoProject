@@ -2,6 +2,7 @@ import React,{useEffect} from "react";
 import { Link } from "react-router-dom";
 
 const Dashboard = (props) => {
+  
   useEffect(()=>{
     props.login(false)    
   },[])

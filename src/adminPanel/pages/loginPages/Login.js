@@ -3,15 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { Url } from "../../components/BaseUrl";
 
 const Login = (props) => {
+  
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  useEffect(()=>{
-    props.login(true)    
-  },[])
 
   const userLogin = async () => {
     let item = { email, password };
@@ -32,12 +29,14 @@ const Login = (props) => {
     {
       if(data.role==="admin") {
         let name = result.data.name;
+        let adminData = result.data
         let token = result.token;
         const adminId=result.data._id
-        localStorage.setItem("token", token);
-        localStorage.setItem("adminId",adminId );
         navigate("/");
         alert(`welcome ${name} `);
+        localStorage.setItem("token", token);
+        localStorage.setItem("adminId",adminId );
+        localStorage.setItem("adminData",adminData );
       } else{
         setError("* only admin can access this page")
       }
@@ -46,6 +45,10 @@ const Login = (props) => {
     }   
   };
 
+  useEffect(()=>{
+    props.login(true)    
+  },[])
+  
   return (
     <div >
       <main className="main">
