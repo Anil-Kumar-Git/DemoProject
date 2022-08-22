@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Url } from "../components/BaseUrl";
+import { useSelector } from "react-redux";
 
-const EditUser = (props) => {
+const EditUser = () => {
   const navigate = useNavigate();
   const inputValue = {
     name: "",
@@ -13,7 +14,8 @@ const EditUser = (props) => {
   };
   const [value, setValue] = useState(inputValue);
   const [errEmail, setErrEmail] = useState("");
-
+  const {editData}=useSelector((state)=>({...state.user}))
+  // console.log(editData)
   const { name, email, phoneNo, address } = value;
 
   const onChangeH = (e) => {
@@ -26,22 +28,22 @@ const EditUser = (props) => {
   };
 
   useEffect(()=>{
-    userEdit();
+    upData(editData);
   },[])
 
-  const userEdit = async () => {
-    const id = props.State;
-    const token = localStorage.getItem("token");
-    let responce = await fetch(`${Url}/user/getSingleUser/${id}`, {
-      method: "get",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const result = await responce.json();
-    const data = result.data;
-    upData(data);
-  };
+  // const userEdit = async () => {
+  //   const id = editData._id;
+  //   const token = localStorage.getItem("token");
+  //   let responce = await fetch(`${Url}/user/getSingleUser/${id}`, {
+  //     method: "get",
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
+  //   const result = await responce.json();
+  //   const data = result.data;
+  //   upData(data);
+  // };
 
   const upData = (data) => {
     const ndata = data;
@@ -57,7 +59,7 @@ const EditUser = (props) => {
 
   const updateHandler = async (e) => {
     e.preventDefault();
-    const id = props.State;
+    const id = editData._id;
     let token = localStorage.getItem("token");
     let responce = await fetch(`${Url}/user/updateUser/${id}`, {
       method: "put",
@@ -100,7 +102,7 @@ const EditUser = (props) => {
                       className="logo d-flex align-items-center w-auto"
                     >
                       <img src="assets/img/logoA1.png" alt="" />
-                      <span className="d-none d-lg-block">AstroAdmin</span>
+                      <span className="d-none d-lg-block">DemoAdmin</span>
                     </Link>
                   </div>
                   {/* End Logo */}

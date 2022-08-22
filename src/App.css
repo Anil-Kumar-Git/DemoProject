@@ -36,3 +36,62 @@
     transform: rotate(360deg);
   }
 }
+
+.my-img {
+  border-radius: 40%;
+}
+
+.container {
+	min-height: 900px;
+	min-width: 500px;
+}
+.container2 {
+  background-color: white;
+	height: 75vh;
+	width: 45vw;
+}
+ 
+.container-cropper {
+	height: 87%;
+	padding: 10px;
+	display:flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cropper {
+	width: 70%;
+	height: 90%;
+	position: relative;
+}
+
+
+.buttons{
+	border: 2px solid black;
+    border-radius: 5px;
+    background-color: royalblue;
+    width: 200px;
+    height: 45px;
+	color: azure;
+}
+
+.slider {
+	height: 10%;
+	display: flex;
+	align-items: center;
+	margin: auto;
+	width: 60%;
+}
+
+.container-buttons {
+	border: 1px solid #f5f5f5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.container-pic {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Header() {
+  const [pic,setPic]=useState("assets/img/default-Img.png")
+
+  // const profilePic=localStorage.getItem("updatedpic")
+  // const Pic=localStorage.getItem("adminPic")
 
   const changeHandle = () => {
     if (document.querySelector(".toggle-sidebar-btn")) {
@@ -12,6 +17,8 @@ export default function Header() {
   const Logout = () => {
     localStorage.clear();
   };
+
+  const {profilePic}=useSelector((state)=>({...state.user}))
 
   return (
     <div>
@@ -31,10 +38,10 @@ export default function Header() {
         {/* End Logo */}
 
         <div className="search-bar">
-          <form
+          <div
             className="search-form d-flex align-items-center"
             method="POST"
-            action="#"
+            action=""
           >
             <input
               type="text"
@@ -45,7 +52,7 @@ export default function Header() {
             <button type="submit" title="Search">
               <i className="bi bi-search" />
             </button>
-          </form>
+          </div>
         </div>
         {/* End Search Bar */}
         <nav className="header-nav ms-auto">
@@ -91,7 +98,7 @@ export default function Header() {
                 data-bs-toggle="dropdown"
               >
                 <img
-                  src="assets/img/profile-img.jpg"
+                  src={profilePic}
                   alt="Profile"
                   className="rounded-circle"
                 />

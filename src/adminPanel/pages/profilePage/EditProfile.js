@@ -1,9 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Url } from "../../components/BaseUrl";
+import { useDispatch, useSelector } from "react-redux";
+import { updatePic, seletedPic } from "../../../store/Slice";
+///////////////////////
+import Cropper from "react-easy-crop";
+import { getCroppedImg } from "../utils/cropImage";
 
 const EditProfile = (props) => {
+  const inputRef = useRef();
+  const triggerFileSelectPopup = () => inputRef.current.click();
+
   const data = props.data;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const inputValue = {
     name: "",
@@ -11,11 +20,17 @@ const EditProfile = (props) => {
     phoneNo: "",
     address: "",
   };
-
-  const [pic, setPic] = useState("");
+  const { profilePic} = useSelector((state) => ({ ...state.user }));
+ 
   const [value, setValue] = useState(inputValue);
   const [errEmail, setErrEmail] = useState("");
   const [errPic, setErrPic] = useState("");
+  //////////////////////////////////
+  const [croppedArea, setCroppedArea] = useState(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [image, setImage] = useState(null);
+  const [show, setShow] = useState(false);
 
   const { name, email, phoneNo, address } = value;
 
@@ -29,8 +44,8 @@ const EditProfile = (props) => {
 
   useEffect(() => {
     setValue(data);
-    setPic(props.pic)
   }, []);
+
 
   const updateAdminData = async (e) => {
     e.preventDefault();
@@ -62,42 +77,35 @@ const EditProfile = (props) => {
     }
   };
 
-
   const choosePic = (e) => {
     var picture = e.target.files[0];
-    setPic(picture);
-    changePic();
+    const pPic = URL.createObjectURL(picture);
+    console.log(pPic,"ppic")
+    setImage(pPic)
+    setShow(true)
+    // dispatch(seletedPic(pPic));
   };
 
-  const changePic = async () => {
-    const id = localStorage.getItem("adminId");
-    var formData = new FormData();
-    formData.append("user_id", id);
-    formData.append("image", pic);
+  const removePic = async () => {
+    dispatch(updatePic("assets/img/default-Img.png"));
+  };
 
-    let responce = await fetch(`${Url}/user/profile`, {
-      method: "post",
-      body: formData,
-      headers: {
-        Accept: "multipart/form-data",
-      },
-    });
-    let result = await responce.json();
-  console.log(result)
-    if (result.success === true) {
-      setErrPic(" ")
-      const myPic = `${Url}/${result.filePath}`;
-      localStorage.setItem("updatedpic",myPic)
-      alert("Profile Pic changed successfully");
-      navigate("/myprofile");
-    } else {
-      setErrPic(result.error);
+  //////////////////////////
+  const onCropComplete = (croppedAreaPercentage, croppedAreaPixels) => {
+    setCroppedArea(croppedAreaPixels);
+  };
+
+  const showCroppedImage = useCallback(async () => {
+    try {
+      const croppedImage = await getCroppedImg(image, croppedArea);
+      dispatch(updatePic(croppedImage));
+      setShow(false)
+      // window.location.reload(false);
+      // navigate("/myprofile");
+    } catch (e) {
+      console.error(e);
     }
-  };
-   useEffect(()=>{
-    changePic();
-   },[])
-
+  }, [image, croppedArea]);
   return (
     <div>
       <div>
@@ -109,23 +117,33 @@ const EditProfile = (props) => {
             Profile Image
           </label>
           <div className="col-md-8 col-lg-9">
-            <img src={props.pic} alt="Profile" />
+            <img className="my-img" src={profilePic} alt="Profile" />
             <div className="text-center">
-              {/* <div className="feedback error-red">{errPic}</div> */}
+              <div className="feedback error-red">{errPic}</div>
             </div>
-            <div className="pt-2">
+            <div className="pt-3 ms-3">
               <input
+                style={{ display: "none" }}
                 type="file"
+                ref={inputRef}
                 accept="image/*"
-                className="btn btn-primary btn-sm bi bi-upload"
-                title="Upload new profile image"
                 onChange={choosePic}
               />
+              <button
+                className="btn btn-primary btn-sm"
+                title="Upload new profile image"
+                onClick={triggerFileSelectPopup}
+                style={{ marginInline: "3px" }}
+                data-bs-toggle={show?("modal"):("")}
+                data-bs-target={show?("#staticBackdrop"):("")}
+              >
+                <i className=" bi bi-upload" />
+              </button>
 
               <button
-                type="file"
                 className="btn btn-danger btn-sm"
                 title="Remove my profile image"
+                onClick={removePic}
               >
                 <i className="bi bi-trash" />
               </button>
@@ -223,6 +241,76 @@ const EditProfile = (props) => {
           <button onClick={updateAdminData} className="btn btn-primary">
             Save Changes
           </button>
+        </div>
+      </div>
+      {/* <!-- Modal --> */}
+      <div>
+        <div
+          className="modal fade"
+          id="staticBackdrop"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered ">
+            <div className="modal-content">
+              <div className="modal-header">
+                {/* <h5 className="modal-title" id="staticBackdropLabel">
+                  Modal title
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button> */}
+              </div>
+              <div className="modal-body" style={{minHeight:400}}>
+                
+                <div className="container"> 
+                 
+                  <div className="container2">
+                     <div className="container-cropper">
+                       <div className="cropper">
+                        <Cropper 
+                          image={image}
+                          crop={crop}
+                          zoom={zoom}
+                          aspect={1}
+                          // cropSize={width:100 ,height:100}
+                          objectFit="auto-cover"
+                          restrictPosition={false}
+                          onCropChange={setCrop}
+                          onZoomChange={setZoom}
+                          onCropComplete={onCropComplete}
+                        />
+                      </div>
+                      </div>
+                  </div>
+                </div>
+                 
+                </div>
+         
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="button" className="btn btn-primary"
+                onClick={showCroppedImage}
+                data-bs-toggle="modal"
+                // data-bs-target=""
+                >
+                SetImage
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

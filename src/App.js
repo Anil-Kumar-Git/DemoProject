@@ -1,4 +1,4 @@
-import "./App.css";
+
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Layout from "./adminPanel/layoutPages/Layout";
@@ -16,13 +16,11 @@ import SingUP from "./adminPanel/pages/loginPages/Singup";
 import ResetPwd from "./adminPanel/pages/loginPages/ResetPwd";
 import ContactUsers from "./adminPanel/pages/ContactUsers";
 import ForgotMessage from "./adminPanel/pages/loginPages/forgotMessage";
-import LogError from "./adminPanel/pages/loginPages/logError";
 import ProtectedComponent from "./adminPanel/components/protectedComponent";
 
-function App() {
-  const [state, setState] = useState([]);
-  const [login, setLogin] = useState(false);
 
+function App() {
+  const [login, setLogin] = useState(false);
   const token = localStorage.getItem("token");
   useEffect(() => {
     if (token) {
@@ -31,11 +29,6 @@ function App() {
       setLogin(true);
     }
   },[login]);
-
-  const data = (id) => {
-    const newid = id;
-    setState(newid);
-  };
 
   const pageLogin = (event) => {
     const log = event;
@@ -63,17 +56,16 @@ function App() {
                 path="/forgot-message"
                 element={<ForgotMessage login={pageLogin} />}
               />
-              <Route path="/*" element={<LogError login={pageLogin} />} />
             </Route>
             <Route element={<PrivetComponent />}>
               <Route path="/" element={<Dashboard login={pageLogin} />} />
-              <Route path="/list" element={<List data={data} />} />
-              <Route path="/edit-user" element={<EditUser State={state} />} />
+              <Route path="/list" element={<List />} />
+              <Route path="/edit-user" element={<EditUser />} />
               <Route path="/add-user" element={<Register />} />
               <Route path="/myprofile" element={<MyProfile />} />
               <Route path="/user-contact/" element={<ContactUsers />} />
-              <Route path="/*" element={<Error />} />
             </Route>
+            <Route path="/*" element={<Error login={pageLogin} />} />
           </Routes>
         </div>
         {login ? "" : <Footer />}

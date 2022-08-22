@@ -18,7 +18,7 @@ const ForgotMessage = (props) => {
                   <div className="d-flex justify-content-center py-4">
                     <a className="logo d-flex align-items-center w-auto">
                       <img src="assets/img/logoA1.png" alt="" />
-                      <span className="d-none d-lg-block">AstroAdmin</span>
+                      <span className="d-none d-lg-block">DemoAdmin</span>
                     </a>
                   </div>
 

@@ -3,18 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { Url } from "../../components/BaseUrl";
 import ChangePassword from "./ChangePassword";
 import EditProfile from "./EditProfile";
+import { useSelector } from "react-redux";
 
 const MyProfile = () => {
-  const navigate = useNavigate();
   const [page, setPage] = useState(false);
   const [data, setdata] = useState("");
-  const [pic, setPic] = useState("");
- 
+  
 
+  const {profilePic}=useSelector((state)=>({...state.user}))
+ 
   const oneUser = async () => {
     const id =  localStorage.getItem("adminId");
     const token =localStorage.getItem("token");
-    const profilePic=localStorage.getItem("updatedpic")
     let responce = await fetch(`${Url}/user/getSingleUser/${id}`, {
       method: "get",
       headers: {
@@ -24,7 +24,6 @@ const MyProfile = () => {
     let result = await responce.json();
     const data = result.data;
     setdata(data);
-    setPic(profilePic)
   };
 
   useEffect(()=>{
@@ -33,11 +32,9 @@ const MyProfile = () => {
 
   const pageEdit = () => {
     setPage(true);
-    // navigate("/myprofile-edit")
   };
   const pagePwd = () => {
     setPage(true);
-    // navigate("/myprofile-changepwd")
   };
 
   return (
@@ -54,7 +51,7 @@ const MyProfile = () => {
               <div className="card">
                 <div className="card-body profile-card pt-4 d-flex flex-column align-items-center">
                   <img
-                    src={pic}
+                    src={profilePic}
                     alt="Profile"
                     className="rounded-circle"
                   />
@@ -165,7 +162,7 @@ const MyProfile = () => {
                       id="profile-edit"
                     >
                       {/* Profile Edit Form */}
-                      {page ? <EditProfile data={data} pic={pic}/> : ""}
+                      {page ? <EditProfile data={data} /> : ""}
                       {/* End Profile Edit Form */}
                     </div>
              

@@ -8,13 +8,11 @@ const Register = () => {
     email: "",
     phoneNo: "",
     address: "",
-    password: "",
   };
   const [value, setValue] = useState(inputValue);
   const [errEmail, setErrEmail] = useState("");
-  const [errPassword, setErrPassword] = useState("");
 
-  const { name, email, phoneNo, address, password } = value;
+  const { name, email, phoneNo, address} = value;
 
   const navigate = useNavigate();
 
@@ -29,14 +27,13 @@ const Register = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+   
     let token = localStorage.getItem("token");
-
     let result = await fetch(
       `${Url}/user/register`,
       {
         method: "post",
-        body: JSON.stringify({ name, email, address, phoneNo, password }),
+        body: JSON.stringify({ name, email, address, phoneNo}),
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -45,7 +42,7 @@ const Register = () => {
       }
     );
     let newresult = await result.json();
-    // console.log(newresult.errors)
+    console.log("hello" ,newresult)
     if (newresult.success === true) {
       alert("inserted successfully");
       navigate("/list");
@@ -53,20 +50,12 @@ const Register = () => {
       let error = newresult.errors;
       if (error.email && error.password) {
         const errEmailA = newresult.errors.email.message;
-        const errPasswordA = newresult.errors.password.message;
         setErrEmail(errEmailA);
-        setErrPassword(errPasswordA);
-      } else if (error.password) {
-        const errPasswordA = newresult.errors.password.message;
-        setErrPassword(errPasswordA);
-        setErrEmail("")
       } else if (error.email) {
         const errEmailA = newresult.errors.email.message;
         setErrEmail(errEmailA);
-        setErrPassword("")
       }else{
         setErrEmail("")
-        setErrPassword("")
       }
     }
   };
@@ -88,7 +77,7 @@ const Register = () => {
                       className="logo d-flex align-items-center w-auto"
                     >
                       <img src="assets/img/logoA1.png" alt="" />
-                      <span className="d-none d-lg-block">AstroAdmin</span>
+                      <span className="d-none d-lg-block">DemoAdmin</span>
                     </Link>
                   </div>
                   {/* End Logo */}
@@ -165,22 +154,6 @@ const Register = () => {
                           {/* <div className="invalid-feedback">
                           Please enter your PhoneNo!
                         </div> */}
-                        </div>
-                        <div className="col-12 margin-top">
-                          <label htmlFor="yourPassword" className="form-label">
-                            Password
-                          </label>
-                          <input
-                            type="password"
-                            name="password"
-                            className="form-control"
-                            value={password}
-                            onChange={onChangeH}
-                            required
-                          />
-                          <div className="feedback error-red">
-                            {errPassword}
-                          </div>
                         </div>
                         <div className="col-12 margin-top">
                           <div className="col-12 margin-top">

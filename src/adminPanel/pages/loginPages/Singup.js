@@ -92,7 +92,7 @@ const SingUP = (props) => {
                       className="logo d-flex align-items-center w-auto"
                     >
                       <img src="assets/img/logoA1.png" alt="" />
-                      <span className="d-none d-lg-block">AstroAdmin</span>
+                      <span className="d-none d-lg-block">DemoAdmin</span>
                     </Link>
                   </div>
                   {/* End Logo */}

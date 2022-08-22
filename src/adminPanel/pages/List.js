@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Url } from "../components/BaseUrl";
+import { useDispatch } from "react-redux";
+import { setEdit } from "../../store/Slice";
 
-const List = (props) => {
-
+const List = () => {
   const del = "false";
   const upd = "true";
-  const [confirm, setConfirm] = useState(false);
+  const [conform, setConform, getConform] = useState(false);
   const [search, setSearch] = useState([]);
   const [state, setState] = useState([]);
+  const dispatch=useDispatch();
 
   const navigate = useNavigate();
 
@@ -19,6 +21,7 @@ const List = (props) => {
   }, []);
 
   const getApi = async () => {
+   
     let responce = await fetch(`${Url}/user/alldata`, {
       method: "get",
       headers: {
@@ -41,32 +44,51 @@ const List = (props) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const result = responce.json();
+    const result = await responce.json();
     if (e == del) {
       deleteHandle(id, result);
     } else if (e == upd) {
-      editHandle(id, result);
+      editHandle(result.data);
+      // console.log(id,result)
     }
   };
+
+  function myConform() {
+    var txt = `Are you sure for delete this user`;
+    if (window.confirm(txt)) {
+      var val = true;
+      // setConform(true);
+    } else {
+      var val = false;
+      // setConform(false);
+    }
+    setConform(val);
+  }
 
   const deleteHandle = async (id, result) => {
     if (result.success == true) {
       myConform();
-      if (confirm == true) {
-        await fetch(`${Url}/user/deleteUser/${id}`, {
-          method: "get",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-      }
+
+      setConform(async (state) => {
+        // console.log(state)
+        if (state === true) {
+          const deletevalue = await fetch(`${Url}/user/deleteUser/${id}`, {
+            method: "get",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          getApi();
+        } 
+      });
     } else {
       alert(result.message);
     }
   };
 
-  const editHandle = (id, result) => {
-    props.data(id, result);
+  const editHandle = (data) => {
+    dispatch(setEdit(data))
+    // props.data(id);
     navigate("/edit-user");
   };
 
@@ -91,15 +113,6 @@ const List = (props) => {
       getApi();
     }
   };
-
-  function myConform() {
-    var txt = `Are you sure for delete this user`;
-    if (window.confirm(txt)) {
-      setConfirm(false);
-    } else {
-      setConfirm(true);
-    }
-  }
 
   const pageDataHandle = async (id, result) => {
     const responce = await fetch(`${Url}/user/getUserWithpagination/1/`, {
@@ -196,7 +209,7 @@ const List = (props) => {
                         <tbody>
                           {state.map((item, index) => {
                             return (
-                              <tr key={item.id}>
+                              <tr key={item._id}>
                                 <td>{index + 1}</td>
                                 <td>{item.name}</td>
                                 <td>{item.email}</td>
@@ -207,13 +220,13 @@ const List = (props) => {
                                     className="btn btn-danger rounded-pill"
                                     onClick={() => oneUser(item._id, del)}
                                   >
-                                    <i className="bi bi-file-x-fill" />
+                                    <i className="ri-delete-bin-5-line" />
                                   </button>{" "}
                                   <button
                                     className="btn btn-info rounded-pill"
                                     onClick={() => oneUser(item._id, upd)}
                                   >
-                                    <i className="bi bi-file-text-fill" />
+                                    <i className="ri-edit-2-line" />
                                   </button>
                                 </td>
                               </tr>

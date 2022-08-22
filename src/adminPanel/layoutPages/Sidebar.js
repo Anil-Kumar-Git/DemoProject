@@ -8,7 +8,7 @@ export default function Sidebar() {
         <ul className="sidebar-nav" id="sidebar-nav">
           <li className="nav-item">
             <Link to="/" className="nav-link collapsed">
-              <i className="bi bi-grid" /> <span>Dashboard</span>{" "}
+              <i className="bi bi-grid" /> <span>Home</span>{" "}
             </Link>
           </li>
           <li className="nav-item">

@@ -2,10 +2,13 @@ import React,{useEffect} from "react";
 import { Link } from "react-router-dom";
 
 const Error = () => {
-
+    
   return (
-    <div className="background-dark">
-      <main id="main">
+    <div className="background-dark main">
+      <br/>
+      <br/>
+      <br/>
+      <main >
         <div className="container">
           <section className="section error-404  min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
             <h1>404</h1>

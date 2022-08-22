@@ -5,6 +5,7 @@ import { Url } from "../../components/BaseUrl";
 const Login = (props) => {
   
   const navigate = useNavigate();
+ 
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,14 +30,12 @@ const Login = (props) => {
     {
       if(data.role==="admin") {
         let name = result.data.name;
-        let adminData = result.data
         let token = result.token;
         const adminId=result.data._id
         navigate("/");
         alert(`welcome ${name} `);
         localStorage.setItem("token", token);
         localStorage.setItem("adminId",adminId );
-        localStorage.setItem("adminData",adminData );
       } else{
         setError("* only admin can access this page")
       }
@@ -63,7 +62,7 @@ const Login = (props) => {
                       className="logo d-flex align-items-center w-auto"
                     >
                       <img src="assets/img/logoA1.png" alt="" />
-                      <span className="d-none d-lg-block">AstroAdmin</span>
+                      <span className="d-none d-lg-block">DemoAdmin</span>
                     </a>
                   </div>
                   {/* End Logo */}
@@ -110,29 +109,8 @@ const Login = (props) => {
                             required
                           />
                         </div>
-                        <div className="col-12">
-                          <p className="small mb-0">
-                            Lost your Password ?{" "}
-                            <Link to="/forgot-password">forgot password</Link>
-                          </p>
-                        </div>
-                        {/* <div className="col-12">
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              name="remember"
-                              defaultValue="true"
-                              id="rememberMe"
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="rememberMe"
-                            >
-                              Remember me
-                            </label>
-                          </div>
-                        </div> */}
+                      
+        
                         <div className="col-12">
                           <button
                             className="btn btn-primary w-100"
@@ -144,10 +122,11 @@ const Login = (props) => {
                         </div>
                         <div className="col-12">
                           <p className="small mb-0">
-                            Don't have account?{" "}
-                            <Link to="/singup">Create an account</Link>
+                            Lost your Password ?{" "}
+                            <Link to="/forgot-password">forgot password</Link>
                           </p>
                         </div>
+
                       </div>
                     </div>
                   </div>

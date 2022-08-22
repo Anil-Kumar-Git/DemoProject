@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Url } from "../../components/BaseUrl";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const ForgotPassword = (props) => {
   const navigate = useNavigate();
@@ -21,12 +21,12 @@ const ForgotPassword = (props) => {
       },
     });
     let result = await responce.json();
-    console.log(result)
+    console.log(result);
     if (result.status == 200) {
       navigate("/forgot-message");
-    }else{
-        setError("* only admin can access this page")
-      }
+    } else {
+      setError("* only admin can access this page");
+    }
   };
 
   return (
@@ -40,7 +40,7 @@ const ForgotPassword = (props) => {
                   <div className="d-flex justify-content-center py-4">
                     <a className="logo d-flex align-items-center w-auto">
                       <img src="assets/img/logoA1.png" alt="" />
-                      <span className="d-none d-lg-block">AstroAdmin</span>
+                      <span className="d-none d-lg-block">DemoAdmin</span>
                     </a>
                   </div>
 
@@ -91,7 +91,6 @@ const ForgotPassword = (props) => {
           </section>
         </div>
       </main>
-  
     </div>
   );
 };
