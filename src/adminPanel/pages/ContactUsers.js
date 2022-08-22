@@ -11,6 +11,7 @@ const ContactUsers = () => {
       };
       const [value, setValue] = useState(inputValue);
       const [doneMessage, setDoneMessage] = useState("");
+      const [notDoneMessage, setNotDoneMessage] = useState("");
     
       const { name, email,subject,message } = value;
     
@@ -24,7 +25,6 @@ const ContactUsers = () => {
           [name]: value,
         }));
       };
-      console.log(value)
     
       const sendMessage = async (e) => {
         e.preventDefault();
@@ -44,17 +44,17 @@ const ContactUsers = () => {
           }
         );
         let result = await responce.json();
-        console.log(result)
         if (result.success) {
             setValue(" ")  
           setDoneMessage("Your message has been sent.")
 
         } else {
-            setDoneMessage("message has been not sent")
+          setNotDoneMessage("message has been not sent")
         }
         setTimeout(() => {
-            setDoneMessage(" ")
-        }, 2500);
+            setDoneMessage(" ");
+            setNotDoneMessage(" ");
+        }, 3000);
        
       };
 
@@ -125,7 +125,8 @@ const ContactUsers = () => {
                   onChange={onChangeH}
                 />
               </div>
-              <div className="feedback error-red">{doneMessage}</div>
+              <div className="feedback" style={{color:"green"}}>{doneMessage}</div>
+              <div className="feedback error-red">{notDoneMessage}</div>
               <div className="col-md-12 text-center">
                 <button type="submit" onClick={sendMessage}>Send Message</button>
           </div>

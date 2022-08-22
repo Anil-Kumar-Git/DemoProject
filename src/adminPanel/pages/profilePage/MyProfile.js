@@ -122,10 +122,6 @@ const MyProfile = () => {
                           Web Designer / {data.role}
                         </div>
                       </div>
-                      {/* <div className="row">
-                        <div className="col-lg-3 col-md-4 label">Country</div>
-                        <div className="col-lg-9 col-md-8">USA</div>
-                      </div> */}
                       <div className="row">
                         <div className="col-lg-3 col-md-4 label">Address</div>
                         <div className="col-lg-9 col-md-8">{data.address}</div>

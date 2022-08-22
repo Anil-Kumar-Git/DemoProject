@@ -47,7 +47,6 @@ function App() {
                 path="/forgot-password"
                 element={<ForgotPassword login={pageLogin} />}
               />
-              <Route path="/singup" element={<SingUP login={pageLogin} />} />
               <Route
                 path="/reset-password/:token"
                 element={<ResetPwd login={pageLogin} />}
