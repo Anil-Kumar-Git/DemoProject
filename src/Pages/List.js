@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Url } from "../components/BaseUrl";
+import { Url } from "../Middleware/BaseUrl/BaseUrl";
 import { useDispatch } from "react-redux";
-import { setEdit } from "../../store/Slice";
+import { setEdit } from "../Services/store/Slice";
 
 const List = () => {
   const del = "false";

@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
-import { Url } from "../components/BaseUrl";
+import { Url } from "../Middleware/BaseUrl/BaseUrl";
 
 const ContactUsers = () => {
     const inputValue = {

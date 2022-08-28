@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Url } from "../../components/BaseUrl";
+import { Url } from "../../Middleware/BaseUrl/BaseUrl";
 
 const Login = (props) => {
   

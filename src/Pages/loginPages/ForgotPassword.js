@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Url } from "../../components/BaseUrl";
+import { Url } from "../../Middleware/BaseUrl/BaseUrl";
 import { useNavigate, Link } from "react-router-dom";
 
 const ForgotPassword = (props) => {

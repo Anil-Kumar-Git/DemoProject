@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Url } from "../components/BaseUrl";
+import { Url } from "../Middleware/BaseUrl/BaseUrl";
 import { useSelector } from "react-redux";
 
 const EditUser = () => {

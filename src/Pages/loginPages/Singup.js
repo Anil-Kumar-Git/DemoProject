@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Url } from "../components/BaseUrl";
+import { Url } from "../../Middleware/BaseUrl/BaseUrl";
 
-const Register = () => {
+const SingUP = (props) => {
+
+    useEffect(()=>{
+        props.login(true)    
+      },[])
+
   const inputValue = {
     name: "",
     email: "",
     phoneNo: "",
     address: "",
+    password: "",
+    role:""
   };
   const [value, setValue] = useState(inputValue);
   const [errEmail, setErrEmail] = useState("");
+  const [errPassword, setErrPassword] = useState("");
 
-  const { name, email, phoneNo, address} = value;
+  const { name, email, phoneNo, address, password ,role} = value;
 
   const navigate = useNavigate();
 
@@ -27,13 +35,14 @@ const Register = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-   
+
     let token = localStorage.getItem("token");
+
     let result = await fetch(
       `${Url}/user/register`,
       {
         method: "post",
-        body: JSON.stringify({ name, email, address, phoneNo}),
+        body: JSON.stringify({ name, email, address, phoneNo, password,role }),
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -42,30 +51,36 @@ const Register = () => {
       }
     );
     let newresult = await result.json();
-    console.log("hello" ,newresult)
+    // console.log(newresult.errors)
     if (newresult.success === true) {
-      alert("inserted successfully");
-      navigate("/list");
+      alert("SingUp successfully");
+      navigate("/login");
     } else {
       let error = newresult.errors;
       if (error.email && error.password) {
         const errEmailA = newresult.errors.email.message;
+        const errPasswordA = newresult.errors.password.message;
         setErrEmail(errEmailA);
+        setErrPassword(errPasswordA);
+      } else if (error.password) {
+        const errPasswordA = newresult.errors.password.message;
+        setErrPassword(errPasswordA);
+        setErrEmail("")
       } else if (error.email) {
         const errEmailA = newresult.errors.email.message;
         setErrEmail(errEmailA);
+        setErrPassword("")
       }else{
         setErrEmail("")
+        setErrPassword("")
       }
     }
   };
 
-
-
   return (
   
        <div className="background-dark">
-      <main className="main" id="main">
+      <main className="main" >
         <div className="container ">
           <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
             <div className="container">
@@ -156,13 +171,45 @@ const Register = () => {
                         </div> */}
                         </div>
                         <div className="col-12 margin-top">
+                          <label htmlFor="yourPassword" className="form-label">
+                            Password
+                          </label>
+                          <input
+                            type="password"
+                            name="password"
+                            className="form-control"
+                            value={password}
+                            onChange={onChangeH}
+                            required
+                          />
+                          <div className="feedback error-red">
+                            {errPassword}
+                          </div>
+                        </div>
+                        <div className="col-12 margin-top">
+                          <label htmlFor="yourName" className="form-label">
+                            Role
+                          </label>
+                          <input
+                            type="number"
+                            name="phoneNo"
+                            className="form-control"
+                            value={role}
+                            onChange={onChangeH}
+                            required
+                          />
+                          {/* <div className="invalid-feedback">
+                          Please enter your PhoneNo!
+                        </div> */}
+                        </div>
+                        <div className="col-12 margin-top">
                           <div className="col-12 margin-top">
                             <button
-                              onClick={submitHandler}
+                            //   onClick={submitHandler}
                               className="btn btn-primary w-100"
                               type="submit"
                             >
-                              Add User
+                              SingUP
                             </button>
                           </div>
                         </div>
@@ -179,4 +226,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default SingUP;

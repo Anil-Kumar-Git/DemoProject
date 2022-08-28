@@ -1,26 +1,18 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Url } from "../../components/BaseUrl";
+import { Url } from "../Middleware/BaseUrl/BaseUrl";
 
-const SingUP = (props) => {
-
-    useEffect(()=>{
-        props.login(true)    
-      },[])
-
+const Register = () => {
   const inputValue = {
     name: "",
     email: "",
     phoneNo: "",
     address: "",
-    password: "",
-    role:""
   };
   const [value, setValue] = useState(inputValue);
   const [errEmail, setErrEmail] = useState("");
-  const [errPassword, setErrPassword] = useState("");
 
-  const { name, email, phoneNo, address, password ,role} = value;
+  const { name, email, phoneNo, address} = value;
 
   const navigate = useNavigate();
 
@@ -35,14 +27,13 @@ const SingUP = (props) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+   
     let token = localStorage.getItem("token");
-
     let result = await fetch(
       `${Url}/user/register`,
       {
         method: "post",
-        body: JSON.stringify({ name, email, address, phoneNo, password,role }),
+        body: JSON.stringify({ name, email, address, phoneNo}),
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -51,36 +42,30 @@ const SingUP = (props) => {
       }
     );
     let newresult = await result.json();
-    // console.log(newresult.errors)
+    console.log("hello" ,newresult)
     if (newresult.success === true) {
-      alert("SingUp successfully");
-      navigate("/login");
+      alert("inserted successfully");
+      navigate("/list");
     } else {
       let error = newresult.errors;
       if (error.email && error.password) {
         const errEmailA = newresult.errors.email.message;
-        const errPasswordA = newresult.errors.password.message;
         setErrEmail(errEmailA);
-        setErrPassword(errPasswordA);
-      } else if (error.password) {
-        const errPasswordA = newresult.errors.password.message;
-        setErrPassword(errPasswordA);
-        setErrEmail("")
       } else if (error.email) {
         const errEmailA = newresult.errors.email.message;
         setErrEmail(errEmailA);
-        setErrPassword("")
       }else{
         setErrEmail("")
-        setErrPassword("")
       }
     }
   };
 
+
+
   return (
   
        <div className="background-dark">
-      <main className="main" >
+      <main className="main" id="main">
         <div className="container ">
           <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
             <div className="container">
@@ -171,45 +156,13 @@ const SingUP = (props) => {
                         </div> */}
                         </div>
                         <div className="col-12 margin-top">
-                          <label htmlFor="yourPassword" className="form-label">
-                            Password
-                          </label>
-                          <input
-                            type="password"
-                            name="password"
-                            className="form-control"
-                            value={password}
-                            onChange={onChangeH}
-                            required
-                          />
-                          <div className="feedback error-red">
-                            {errPassword}
-                          </div>
-                        </div>
-                        <div className="col-12 margin-top">
-                          <label htmlFor="yourName" className="form-label">
-                            Role
-                          </label>
-                          <input
-                            type="number"
-                            name="phoneNo"
-                            className="form-control"
-                            value={role}
-                            onChange={onChangeH}
-                            required
-                          />
-                          {/* <div className="invalid-feedback">
-                          Please enter your PhoneNo!
-                        </div> */}
-                        </div>
-                        <div className="col-12 margin-top">
                           <div className="col-12 margin-top">
                             <button
-                            //   onClick={submitHandler}
+                              onClick={submitHandler}
                               className="btn btn-primary w-100"
                               type="submit"
                             >
-                              SingUP
+                              Add User
                             </button>
                           </div>
                         </div>
@@ -226,4 +179,4 @@ const SingUP = (props) => {
   );
 };
 
-export default SingUP;
+export default Register;

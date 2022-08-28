@@ -1,22 +1,21 @@
 
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Layout from "./adminPanel/layoutPages/Layout";
-import ForgotPassword from "./adminPanel/pages/loginPages/ForgotPassword";
-import Dashboard from "./adminPanel/pages/Main";
-import List from "./adminPanel/pages/List";
-import EditUser from "./adminPanel/pages/EditUser";
-import Register from "./adminPanel/pages/Register";
-import Login from "./adminPanel/pages/loginPages/Login";
-import PrivetComponent from "./adminPanel/components/PrivetComponent";
-import MyProfile from "./adminPanel/pages/profilePage/MyProfile";
-import Footer from "./adminPanel/layoutPages/Footer";
-import Error from "./adminPanel/pages/Error";
-import SingUP from "./adminPanel/pages/loginPages/Singup";
-import ResetPwd from "./adminPanel/pages/loginPages/ResetPwd";
-import ContactUsers from "./adminPanel/pages/ContactUsers";
-import ForgotMessage from "./adminPanel/pages/loginPages/forgotMessage";
-import ProtectedComponent from "./adminPanel/components/protectedComponent";
+import Login from "./Pages/loginPages/Login";
+import ForgotPassword from "./Pages/loginPages/ForgotPassword";
+import ForgotMessage from "./Pages/loginPages/forgotMessage";
+import Dashboard from "./Pages/Main";
+import List from "./Pages/List";
+import EditUser from "./Pages/EditUser";
+import Register from "./Pages/Register";
+import MyProfile from "./Pages/profilePage/MyProfile";
+import ContactUsers from "./Pages/ContactUsers";
+import Error from "./Pages/Error";
+import ResetPwd from "./Pages/loginPages/ResetPwd"
+import Footer from "./Components/layoutPages/Footer";
+import Layout from "./Components/layoutPages/Layout";
+import PrivetComponent from "./Routes/privetRoute/PrivetComponent";
+import ProtectedComponent from "./Routes/protectedRoutes/protectedComponent";
 
 
 function App() {

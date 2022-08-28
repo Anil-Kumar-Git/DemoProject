@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Url } from "../../components/BaseUrl";
+import { Url } from "../../Middleware/BaseUrl/BaseUrl";
 import ChangePassword from "./ChangePassword";
 import EditProfile from "./EditProfile";
 import { useSelector } from "react-redux";
